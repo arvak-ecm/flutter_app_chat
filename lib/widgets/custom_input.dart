@@ -23,7 +23,7 @@ class CustomInput extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.only(bottom: this.marginBottom),
-      padding: EdgeInsets.only(top: 5, left: 5, bottom: 5, right: 20),
+      padding: EdgeInsets.only(top: 3, left: 15, bottom: 3, right: 20),
       decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(30),
@@ -39,10 +39,14 @@ class CustomInput extends StatelessWidget {
         autocorrect: false,
         keyboardType: this.keyboardType,
         decoration: InputDecoration(
-            prefixIcon: Icon(this.icon),
-            focusedBorder: InputBorder.none,
-            border: InputBorder.none,
-            hintText: this.placeholder),
+          prefixIconConstraints: BoxConstraints(
+            minHeight: 32,
+            minWidth: 32,
+          ),
+          prefixIcon: Icon(this.icon,size: 22.0,),
+          focusedBorder: InputBorder.none,
+          border: InputBorder.none,
+          hintText: this.placeholder),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../custom_button.dart';
 import '../custom_input.dart';
@@ -21,12 +22,12 @@ class _LoginFormState extends State<LoginForm> {
       child: Column(
         children: [
           CustomInput(
-              icon: Icons.mail_outline,
+              icon: FontAwesomeIcons.lightUser,
               keyboardType: TextInputType.emailAddress,
               placeholder: 'Ingrese su usuario',
               textController: emailCtrl),
           CustomInput(
-            icon: Icons.vpn_key,
+            icon: FontAwesomeIcons.lightLockAlt,
             placeholder: 'Ingrese su contraseña',
             textController: passwordCtrl,
             isPassword: true,

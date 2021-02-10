@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../custom_button.dart';
 import '../custom_input.dart';
@@ -22,16 +23,16 @@ class _RegisterFormState extends State<RegisterForm> {
       child: Column(
         children: [
           CustomInput(
-              icon: Icons.person,
+              icon: FontAwesomeIcons.lightUser,
               placeholder: 'Nombre',
               textController: nameCtrl),
           CustomInput(
-              icon: Icons.mail_outline,
+              icon: FontAwesomeIcons.lightEnvelope,
               keyboardType: TextInputType.emailAddress,
               placeholder: 'Correo',
               textController: emailCtrl),
           CustomInput(
-            icon: Icons.vpn_key,
+            icon: FontAwesomeIcons.lightLockAlt,
             placeholder: 'Contraseña',
             textController: passwordCtrl,
             isPassword: true,

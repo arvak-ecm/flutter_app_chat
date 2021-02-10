@@ -11,7 +11,7 @@ class RegisterPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldAppWidget(
-      chidren: [
+      listWidget: [
         LogoAppWidget(title: 'Registro'),
         RegisterForm(),
         NavAuth(
