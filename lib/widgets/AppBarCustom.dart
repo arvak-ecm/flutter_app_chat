@@ -1,19 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+
+  const AppBarCustom({
+    Key key,
+    this.title,
+  }) : super(key: key);
 
   @override
   AppBar build(BuildContext context) {
     return AppBar(
       elevation: 1,
       title: Text(
-        'Eduardo Cardoso',
+        this.title,
         style: TextStyle(color: Colors.blue[400]),
       ),
       backgroundColor: Colors.white,
-      leading: Icon(FontAwesomeIcons.lightWifi, size: 14, color: Colors.green[400],),
+      leading: Icon(
+        FontAwesomeIcons.lightWifi,
+        size: 14,
+        color: Colors.green[400],
+      ),
       actions: [
         Container(margin: EdgeInsets.only(right: 20), child: _menu()
             // Icon(FontAwesomeIcons.lightWifiSlash, color: Colors.red[400]),

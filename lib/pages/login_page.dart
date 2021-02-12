@@ -9,6 +9,7 @@ class LoginPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ScaffoldAppWidget(
+      appBar: false,
       listWidget: [
         LogoAppWidget(title: 'Messenger'),
         LoginForm(),
