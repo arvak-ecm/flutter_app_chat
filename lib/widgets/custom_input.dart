@@ -33,11 +33,17 @@ class CustomInput extends StatelessWidget {
                 offset: Offset(0, 5),
                 blurRadius: 5)
           ]),
-      child: TextField(
+      child: TextFormField(
         controller: this.textController,
         obscureText: this.isPassword,
         autocorrect: false,
         keyboardType: this.keyboardType,
+        validator: (value) {
+          if (value.isEmpty) {
+            return '        Por favor debe ingresar un valor';
+          }
+            return null;
+        },
         decoration: InputDecoration(
           prefixIconConstraints: BoxConstraints(
             minHeight: 32,

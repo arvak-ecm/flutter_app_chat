@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'package:app_chat/services/auth_service.dart';
+
+
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
@@ -24,7 +27,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
         color: Colors.green[400],
       ),
       actions: [
-        Container(margin: EdgeInsets.only(right: 20), child: _menu()
+        Container(margin: EdgeInsets.only(right: 20), child: _menu(context)
             // Icon(FontAwesomeIcons.lightWifiSlash, color: Colors.red[400]),
             // Icon(FontAwesomeIcons.lightWifi, color: Colors.blue[400])
             )
@@ -32,7 +35,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
     );
   }
 
-  Widget _menu() {
+  Widget _menu(BuildContext context) {
     // String dropdownValue = 'One';
     return Container(
       padding: EdgeInsets.only(top: 3.5),
@@ -43,7 +46,12 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.deepPurple),
         underline: Container(height: 0),
         onChanged: (String newValue) {
-          print(newValue);
+          AuthService.deleteToken();
+          switch(newValue) {
+            case 'Salir':
+              Navigator.pushReplacementNamed(context, 'login');
+            break;
+          }
           // dropdownValue = newValue;
         },
         items: <String>['Salir'].map<DropdownMenuItem<String>>((String value) {
