@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'package:app_chat/services/auth_service.dart';
+import 'package:app_chat/services/socket_service.dart';
 
 
 class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
@@ -14,6 +16,7 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   AppBar build(BuildContext context) {
+    final socketService = Provider.of<SocketService>(context);
     return AppBar(
       elevation: 1,
       title: Text(
@@ -21,22 +24,21 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.blue[400]),
       ),
       backgroundColor: Colors.white,
-      leading: Icon(
-        FontAwesomeIcons.lightWifi,
-        size: 14,
-        color: Colors.green[400],
-      ),
+      leading: (socketService.serverStatus == ServerStatus.Online )
+        ? Icon( FontAwesomeIcons.lightWifi, size: 14, color: Colors.green[400], )
+        : Icon( FontAwesomeIcons.lightWifiSlash, size: 14, color: Colors.red[400], ),
       actions: [
-        Container(margin: EdgeInsets.only(right: 20), child: _menu(context)
-            // Icon(FontAwesomeIcons.lightWifiSlash, color: Colors.red[400]),
-            // Icon(FontAwesomeIcons.lightWifi, color: Colors.blue[400])
-            )
+        Container(
+          margin: EdgeInsets.only(right: 20),
+          child: _menu(context)
+        )
       ],
     );
   }
 
   Widget _menu(BuildContext context) {
     // String dropdownValue = 'One';
+    final socketService = Provider.of<SocketService>(context);
     return Container(
       padding: EdgeInsets.only(top: 3.5),
       child: DropdownButton<String>(
@@ -46,11 +48,12 @@ class AppBarCustom extends StatelessWidget implements PreferredSizeWidget {
         style: TextStyle(color: Colors.deepPurple),
         underline: Container(height: 0),
         onChanged: (String newValue) {
-          AuthService.deleteToken();
-          switch(newValue) {
+          switch (newValue) {
             case 'Salir':
+              AuthService.deleteToken();
+              socketService.disconnect();
               Navigator.pushReplacementNamed(context, 'login');
-            break;
+              break;
           }
           // dropdownValue = newValue;
         },

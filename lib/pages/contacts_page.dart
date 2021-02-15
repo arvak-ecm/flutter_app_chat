@@ -1,8 +1,12 @@
-import 'package:app_chat/services/auth_service.dart';
+import 'package:app_chat/services/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:pull_to_refresh/pull_to_refresh.dart';
+
+import 'package:app_chat/services/auth_service.dart';
+import 'package:app_chat/services/socket_service.dart';
+
 import 'package:app_chat/widgets/ScaffoldApp.dart';
 import 'package:app_chat/models/user.dart';
 
@@ -12,10 +16,13 @@ class ContactsPage extends StatefulWidget {
 }
 
 class _ContactsPageState extends State<ContactsPage> {
+  final userService = new UsersService();
   RefreshController _refreshController =
       RefreshController(initialRefresh: false);
 
-  final contacts = [
+  List<User> listMyContacts = [];
+
+  /*final contacts = [
     User(
         uid: '1',
         name: 'Aymara Martinez',
@@ -38,7 +45,14 @@ class _ContactsPageState extends State<ContactsPage> {
         isOnline: true),
     User(
         uid: '5', name: 'Haydee Martin', email: 'hm@gmail.com', isOnline: false)
-  ];
+  ];*/
+
+  @override
+  void initState() {
+    final socketService = Provider.of<SocketService>(context, listen: false);
+    socketService.connectInit();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -63,25 +77,28 @@ class _ContactsPageState extends State<ContactsPage> {
   _listContacts(BuildContext context) {
     return ListView.separated(
       itemBuilder: (_, i) => ListTile(
-        title: Text(contacts[i].name),
+        title: Text(listMyContacts[i].name),
         leading: CircleAvatar(
-          child: Text(contacts[i].name.substring(0, 2)),
+          child: Text(listMyContacts[i].name.substring(0, 2)),
         ),
         trailing: Container(
           width: 10,
           height: 10,
           decoration: BoxDecoration(
-              color: contacts[i].isOnline ? Colors.green[400] : Colors.red[400],
+              color: listMyContacts[i].isOnline ? Colors.green[400] : Colors.red[400],
               borderRadius: BorderRadius.circular(100)),
         ),
       ),
       separatorBuilder: (_, i) => Divider(),
-      itemCount: contacts.length,
+      itemCount: listMyContacts.length,
     );
   }
 
   void _getContacts() async {
-    await Future.delayed(Duration(milliseconds: 1000));
+    this.listMyContacts = await userService.listUsers();
+    setState(() {});
+
+    //await Future.delayed(Duration(milliseconds: 1000));
     // if failed,use refreshFailed()
     _refreshController.refreshCompleted();
   }

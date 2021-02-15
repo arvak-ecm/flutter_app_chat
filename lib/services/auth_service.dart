@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/io_client.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-import 'package:app_chat/models/response/loginResponse.dart';
+import 'package:app_chat/models/response/auth/loginResponse.dart';
 import 'package:app_chat/models/user.dart';
 import 'package:app_chat/config/enviroment.dart';
 
@@ -107,8 +107,7 @@ class AuthService with ChangeNotifier {
 
     try {
       final ioc = new HttpClient();
-      ioc.badCertificateCallback =
-          (X509Certificate cert, String host, int port) => true;
+      // ioc.badCertificateCallback = (X509Certificate cert, String host, int port) => true;
       final http = new IOClient(ioc);
 
       final resp = await http.get('${Enviroment.apiPath}/auth/renewJWT',
@@ -122,18 +121,19 @@ class AuthService with ChangeNotifier {
         final loginResponse = loginResponseFromJson(resp.body);
         if (loginResponse.info.code == '00') {
           this.user = loginResponse.output;
-          this._saveToken(this.user.token);
+          await this._saveToken(this.user.token);
           return true;
         }
       } else {
-        this._deleteToken();
+        await this._deleteToken();
         return false;
       }
     } catch (e) {
       this._isAuth = false;
-      this._deleteToken();
+      await this._deleteToken();
       return false;
     }
+    return false;
   }
 
   Future _saveToken(String token) async {

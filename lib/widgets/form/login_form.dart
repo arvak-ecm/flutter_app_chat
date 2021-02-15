@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:app_chat/services/auth_service.dart';
+
 import '../custom_button.dart';
 import '../custom_input.dart';
 
@@ -54,6 +55,7 @@ class _LoginFormState extends State<LoginForm> {
                               this.passwordCtrl.text.trim());
 
                           if (login) {
+                            //socketService.connect();
                             Navigator.pushReplacementNamed(context, 'contacts');
                           } else {
                             dialogCustom(context, 'Login incorrecto',
