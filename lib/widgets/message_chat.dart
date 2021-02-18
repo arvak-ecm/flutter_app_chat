@@ -1,16 +1,18 @@
+import 'package:app_chat/services/auth_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 class MessageChat extends StatelessWidget {
   final String text;
   final String uid;
   final AnimationController animationController;
 
-  MessageChat({
-    Key key,
-    @required this.text,
-    @required this.uid,
-    @required this.animationController
-  }) : super(key: key);
+  MessageChat(
+      {Key key,
+      @required this.text,
+      @required this.uid,
+      @required this.animationController})
+      : super(key: key);
 
   final BorderRadius _boderRadiusBox = BorderRadius.circular(12.0);
   final EdgeInsets _paddingBox = EdgeInsets.all(10.0);
@@ -21,15 +23,15 @@ class MessageChat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authService = Provider.of<AuthService>(context, listen: false);
     return FadeTransition(
-      opacity: this.animationController,
-      child: SizeTransition(
-        sizeFactor: CurvedAnimation(parent: this.animationController, curve: Curves.easeInOut),
-        child: Container(
-          child: this.uid == '123' ? _myMessage() : _otherMessage()
-        ),
-      )
-    );
+        opacity: this.animationController,
+        child: SizeTransition(
+          sizeFactor: CurvedAnimation(
+              parent: this.animationController, curve: Curves.easeInOut),
+          child: Container(
+              child: this.uid == authService.user.uid ? _myMessage() : _otherMessage()),
+        ));
   }
 
   Widget _myMessage() {

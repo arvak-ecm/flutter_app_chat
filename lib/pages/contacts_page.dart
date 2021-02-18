@@ -1,4 +1,3 @@
-import 'package:app_chat/services/users_service.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:provider/provider.dart';
@@ -6,6 +5,8 @@ import 'package:pull_to_refresh/pull_to_refresh.dart';
 
 import 'package:app_chat/services/auth_service.dart';
 import 'package:app_chat/services/socket_service.dart';
+import 'package:app_chat/services/chat_service.dart';
+import 'package:app_chat/services/users_service.dart';
 
 import 'package:app_chat/widgets/ScaffoldApp.dart';
 import 'package:app_chat/models/user.dart';
@@ -21,31 +22,6 @@ class _ContactsPageState extends State<ContactsPage> {
       RefreshController(initialRefresh: false);
 
   List<User> listMyContacts = [];
-
-  /*final contacts = [
-    User(
-        uid: '1',
-        name: 'Aymara Martinez',
-        email: 'am@gmail.com',
-        isOnline: true),
-    User(
-        uid: '2',
-        name: 'Eduardo Cardoso',
-        email: 'ec@gmail.com',
-        isOnline: true),
-    User(
-        uid: '3',
-        name: 'Pedro la casa',
-        email: 'pc@gmail.com',
-        isOnline: false),
-    User(
-        uid: '4',
-        name: 'leonardo Cardoso',
-        email: 'lc@gmail.com',
-        isOnline: true),
-    User(
-        uid: '5', name: 'Haydee Martin', email: 'hm@gmail.com', isOnline: false)
-  ];*/
 
   @override
   void initState() {
@@ -85,9 +61,17 @@ class _ContactsPageState extends State<ContactsPage> {
           width: 10,
           height: 10,
           decoration: BoxDecoration(
-              color: listMyContacts[i].isOnline ? Colors.green[400] : Colors.red[400],
+              color: listMyContacts[i].isOnline
+                  ? Colors.green[400]
+                  : Colors.red[400],
               borderRadius: BorderRadius.circular(100)),
         ),
+        onTap: () {
+          final chatService = Provider.of<ChatService>(context, listen: false);
+          chatService.userTo = listMyContacts[i];
+          Navigator.pushNamed(context, 'chat');
+          print(listMyContacts[i].uid);
+        },
       ),
       separatorBuilder: (_, i) => Divider(),
       itemCount: listMyContacts.length,

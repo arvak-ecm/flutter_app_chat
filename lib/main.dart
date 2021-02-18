@@ -4,8 +4,10 @@ import 'package:provider/provider.dart';
 
 import 'package:app_chat/routes/routes.dart';
 import 'package:app_chat/services/custom_http_overrides.dart';
+
 import 'package:app_chat/services/auth_service.dart';
 import 'package:app_chat/services/socket_service.dart';
+import 'package:app_chat/services/chat_service.dart';
 
 void main() {
   HttpOverrides.global = new CustomHttpOverrides();
@@ -22,7 +24,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(
           create: (BuildContext context) => SocketService() ),
         ChangeNotifierProvider(
-          create: (BuildContext context) => AuthService() )
+          create: (BuildContext context) => AuthService() ),
+        ChangeNotifierProvider(
+          create: (BuildContext context) => ChatService() ),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

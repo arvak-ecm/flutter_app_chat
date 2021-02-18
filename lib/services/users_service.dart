@@ -30,5 +30,6 @@ class UsersService {
     } catch (err) {
       return [];
     }
+    return [];
   }
 }
